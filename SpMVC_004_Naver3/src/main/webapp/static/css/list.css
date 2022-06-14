@@ -1,0 +1,31 @@
+@charset "UTF-8";
+.book_d{
+	margin-left: auto;
+}
+
+.book_t {
+	margin : 30px auto 50px;
+	width: 90%;
+	border-collapse: collapse;
+	border: 1px solid #999;
+	border-left: none;
+	border-right: none;
+	text-align: center;
+	padding: 10px;
+	
+}
+thead {
+	background-color: #666;
+}
+a {
+	color: inherit;
+}
+button {
+	width: 100px;
+	color: white;
+	background-color: #333;
+	border: none;
+	border-radius: 5px;
+	height: 40px;
+	margin-left: auto;
+}
