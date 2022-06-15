@@ -10,4 +10,6 @@ public interface SelfitDao {
 	public List<WorkOutDTO> workOutView();
 	public List<StartMenuDTO> selectStartMenu();
 	public List<StartMenuDTO> selectDaySet(String sc_num);
+	public List<StartMenuDTO> selectByScNum(String sc_num);
+	public List<WorkOutDTO> selectWorkOut(String sc_id);
 }

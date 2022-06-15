@@ -16,7 +16,7 @@ import com.callor.images.service.SelfitService;
 @Service(QualifierConfig.SERVICE.SELFIT_V1)
 public class SelfitServiceImplV1 implements SelfitService{
 
-	private final SelfitDao selfitDao;
+	protected final SelfitDao selfitDao;
 	public SelfitServiceImplV1(SelfitDao selfitDao) {
 		this.selfitDao = selfitDao;
 	}
@@ -57,7 +57,6 @@ public class SelfitServiceImplV1 implements SelfitService{
 	public void getDaySetList(Model model, String sc_num) {
 	
 		List<StartMenuDTO> daySetList = selfitDao.selectDaySet(sc_num);
-		
 		model.addAttribute("DAYS",daySetList);
 		
 		

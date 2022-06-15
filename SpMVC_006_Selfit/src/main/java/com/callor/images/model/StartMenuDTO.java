@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class StartMenuDTO {
 
+	private String sc_id;
 	private String sc_num;
 	private String sc_label;
 	private String sc_division;
