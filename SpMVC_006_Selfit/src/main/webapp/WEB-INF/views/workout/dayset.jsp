@@ -16,6 +16,10 @@
 		margin: 10px auto;
 	}
 </style>
+<script>
+	const rootPath = "${rootPath}"
+</script>
+<script src="${rootPath}/static/js/dayset.js?20220615004"></script>
 </head>
 <body>
 	<div class="dayset">
@@ -33,7 +37,7 @@
 			<th>횟수</th>
 		</tr>
 		<c:forEach items="${WORKS}" var="WORK">
-			<tr>
+			<tr data-list_id="${WORK.sl_listid}" data-sc_id="${WORK.sl_scid}">
 				<td>${WORK.list_name}</td>
 				<td>${WORK.sl_set}</td>
 				<td>${WORK.sl_weight}</td>

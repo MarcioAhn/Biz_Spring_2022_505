@@ -74,10 +74,11 @@ public class BuyBooksServiceImplV1 implements BuyBooksService{
 		// 1. 구입한 일자를 자동으로 생성하기
 		Date date = new Date(System.currentTimeMillis());
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss");
 		
 		BuyBooksVO buyBooksVO = BuyBooksVO.builder()
 								.b_date(dateFormat.format(date))
-								.b_isbn(bookVO.getIsbn())
+								.b_time(dateFormat1.format(date))
 								.b_username(userVO.getUsername())
 								.build();
 		

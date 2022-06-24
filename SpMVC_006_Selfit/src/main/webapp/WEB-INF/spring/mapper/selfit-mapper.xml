@@ -5,6 +5,10 @@
 
 <mapper namespace="com.callor.images.persistance.SelfitDao">
 
+	<select id="selectDayHealth" resultType="WorkOutDTO">
+		SELECT * FROM view_workout
+		WHERE sl_scid = #{sc_id} AND sl_listid = #{sc_listid}
+	</select>
 	<select id="selectWorkOut" resultType="WorkOutDTO">
 		SELECT * FROM view_workout
 		WHERE sl_scid = #{sc_id}

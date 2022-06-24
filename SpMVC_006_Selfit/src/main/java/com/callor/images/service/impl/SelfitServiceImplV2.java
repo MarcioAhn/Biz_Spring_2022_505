@@ -9,7 +9,6 @@ import com.callor.images.config.QualifierConfig;
 import com.callor.images.model.StartMenuDTO;
 import com.callor.images.model.WorkOutDTO;
 import com.callor.images.persistance.SelfitDao;
-import com.mysql.cj.log.Log;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,9 +45,19 @@ public class SelfitServiceImplV2 extends SelfitServiceImplV1{
 		List<WorkOutDTO> workList = selfitDao.selectWorkOut(sc_id);
 		model.addAttribute("WORKS", workList);
 		
-		
-		
 	}
 	
+	@Override
+	public void getDaySetList(Model model, String sc_num, String sc_id) {
+		// TODO Auto-generated method stub
+		super.getDaySetList(model, sc_num);	
+		List<WorkOutDTO> workList = selfitDao.selectWorkOut(sc_id);
+		model.addAttribute("WORKS", workList);
+	}
+	
+	@Override
+	public WorkOutDTO getDayHealth(String sc_id, String listid) {
+		return selfitDao.selectDayHealth(sc_id, listid);
+	}
 
 }
