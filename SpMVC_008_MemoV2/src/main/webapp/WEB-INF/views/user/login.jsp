@@ -28,7 +28,7 @@
 		align-items: center;
 	}
 	form {
-		width: 50%;
+		width: 20%;
 		text-align: center;
 	}
 	input {

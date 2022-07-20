@@ -20,11 +20,12 @@ import lombok.ToString;
 @Builder
 public class MemoDTO {
 	private long m_seq;
+	private String m_title;
 	private String m_author;
 	private String m_date;
 	private String m_time;
 	private String m_memo;
 	private String m_image;	
-	
+	private String m_page;
 	private String m_up_image;
 }

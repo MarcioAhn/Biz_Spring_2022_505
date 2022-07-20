@@ -6,17 +6,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // 가장 안쪽의 td가 target으로 작동한다
     const target = e.target;
     // 가장 안쪽의 td가 클릭되면
-    // td를 감싸고 있는 tr을 찾아라
-    const tr = target?.closest("TR");
-    const seq = tr?.dataset.seq;
+    if (target.tagName === "TD") {
+      // td를 감싸고 있는 tr을 찾아라
+      const tr = target.closest("TR");
+      const seq = tr.dataset.seq;
 
-    /*
-    JS에서 변수값이
-    0, undefined, null, NaN, "" 등은 if에서 모두 false로 인식한다
-    seq 값이 정상적인 범위의 값일때만 detail로 점프하기
-    */
-    if (seq) {
-      document.location.href = `${rootPath}/memo/${seq}/detail`;
+      /*
+      JS에서 변수값이
+      0, undefined, null, NaN, "" 등은 if에서 모두 false로 인식한다
+      seq 값이 정상적인 범위의 값일때만 detail로 점프하기
+      */
+      if (seq) {
+        document.location.href = `${rootPath}/memo/${seq}/detail`;
+      }
     }
   });
 });

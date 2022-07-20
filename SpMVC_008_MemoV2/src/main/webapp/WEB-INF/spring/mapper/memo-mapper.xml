@@ -19,28 +19,34 @@
  	</select>
  	<insert id="insert" parameterType="MemoDTO">
  		INSERT INTO tbl_memos(
+ 			m_title,
  			m_author,
  			m_date,
  			m_time,
  			m_memo,
  			m_image,
+ 			m_page,
  			m_up_image
  		) VALUES (
+ 			#{m_title},
  			#{m_author},
  			#{m_date},
  			#{m_time},
  			#{m_memo},
  			#{m_image},
+ 			#{m_page},
  			#{m_up_image}
  		)
  	</insert>
  	<update id="update" parameterType="MemoDTO">
  		UPDATE tbl_memos SET
+ 			m_title = #{m_title},
  			m_author = #{m_author},
  			m_date = #{m_date},
  			m_time = #{m_time},
  			m_memo = #{m_memo},
  			m_image = #{m_image},
+ 			m_page = #{m_page},
  			m_up_image = #{m_up_image}
  		WHERE m_seq = #{m_seq}
  	</update>
@@ -52,11 +58,13 @@
  	<select id="create_memo_table">
  		CREATE TABLE IF NOT EXISTS tbl_memos (
  			m_seq BIGINT PRIMARY KEY AUTO_INCREMENT,
+ 			m_title VARCHAR(100) NOT NULL,
  			m_author VARCHAR(25) NOT NULL,
  			m_date VARCHAR(10) NOT NULL,
  			m_time VARCHAR(10) NOT NULL,
- 			m_memo VARCHAR(40) NOT NULL,
+ 			m_memo VARCHAR(2000) NOT NULL,
  			m_image VARCHAR(125),
+ 			m_page VARCHAR(20),
  			m_up_image VARCHAR(125) 
  		)
  	</select>
