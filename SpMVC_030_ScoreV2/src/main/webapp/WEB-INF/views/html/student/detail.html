@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultra	q.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+<th:block layout:fragment="content">
+<div class="student detail_body">
+	<div>학번 :</div>
+	<div class="student detail" th:text="${STUDENTS.st_num}"></div>
+</div>
+<div class="student detail_body">
+	<div>이름 :</div>
+	<div class="student detail" th:text="${STUDENTS.st_name}"></div>
+</div>
+<div class="student detail_body">
+	<div>학과 :</div>
+	<div class="student detail" th:text="${STUDENTS.st_dept}"></div>
+</div>
+<div class="student detail_body">
+	<div>전화번호 :</div>
+	<div class="student detail" th:text="${STUDENTS.st_tel}"></div>
+</div>
+<div class="student detail_body">
+	<div>주소 :</div>
+	<div class="student detail" th:text="${STUDENTS.st_addr}"></div>
+</div>
+
+<div th:each=" SCORE : ${STUDENTS.scoreList}">
+	<div th:text="|${SCORE.sb_name}(${SCORE.sc_sbcode}) : ${SCORE.sc_score}|"></div>
+</div>
+<div>
+	<a th:href="@{/student/update(st_num=${STUDENTS.st_num})}">수정하기</a>
+	<a th:href="@{/score/update(st_num=${STUDENTS.st_num})}">성적수정하기</a>
+	<a th:href="@{/student}">학생리스트로 가기</a>
+</div>
+</th:block>
