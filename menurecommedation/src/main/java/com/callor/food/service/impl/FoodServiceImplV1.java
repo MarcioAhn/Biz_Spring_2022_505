@@ -106,4 +106,10 @@ public class FoodServiceImplV1 implements FoodService{
 		return ret;
 	}
 
+	@Override
+	public FoodVO findByFood(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

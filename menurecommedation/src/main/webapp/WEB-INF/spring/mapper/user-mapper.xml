@@ -30,18 +30,31 @@
 			username,
 			password,
 			enabled,
+			email,
 			realname,
 			nickname
 		) VALUES(
 			#{username},
 			#{password},
 			#{enabled},
+			#{email},
 			#{realname},
 			#{nickname}
 		)
  	</insert>
- 	<update id="update"></update>
- 	<delete id="delete"></delete>
+ 	<update id="update">
+ 		UPDATE tbl_users
+ 		SET email = #{email},
+			phone = #{phone},
+			address = #{address},
+			realname = #{realname},
+			nickname = #{nickname}
+		WHERE username =#{username}
+ 	</update>
+ 	<delete id="delete">
+ 		DELETE FROM tbl_users 
+ 		WHERE username = #{username}
+ 	</delete>
  	
  	<select id="create_user_table">
  		CREATE TABLE IF NOT EXISTS tbl_users (
@@ -51,6 +64,7 @@
 			accountNonExpired BOOLEAN  DEFAULT FALSE,
 			accountNonLocked BOOLEAN  DEFAULT FALSE,
 			credentialsNonExpired BOOLEAN  DEFAULT FALSE,
+			email VARCHAR(100),
 			realname VARCHAR(20),
 			nickname VARCHAR(20)
 		)

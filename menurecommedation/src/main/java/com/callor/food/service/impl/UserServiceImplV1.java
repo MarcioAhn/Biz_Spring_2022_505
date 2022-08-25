@@ -54,7 +54,7 @@ public class UserServiceImplV1 implements UserService{
 
 	@Override
 	public UserVO findById(String id) {
-		return null;
+		return userDao.findById(id);
 	}
 
 	/*

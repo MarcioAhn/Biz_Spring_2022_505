@@ -36,6 +36,7 @@ public class UserVO implements UserDetails { // extends User {
 	
 	private String realname;
 	private String nickname;
+	
 
 
 }

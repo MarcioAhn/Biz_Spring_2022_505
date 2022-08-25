@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="https://kit.fontawesome.com/464cf13c93.js"
 	crossorigin="anonymous"></script>
+<script src="${rootPath}/static/js/roulette.js?ver=2022-08-18-003"></script>
 <style>
 * {
 	box-sizing: border;
@@ -96,6 +97,127 @@ article.welcome {
 	justify-content: center;
 	align-items: center;
 }
+
+.list_box {
+	display: flex;
+	overflow: hidden;
+	height: 200px;
+}
+
+.menu_rec {
+	margin: 100px auto;
+	width: 650px;
+}
+
+div.list_today {
+	/* display: flex; */
+	flex-direction: column;
+}
+
+div.list_row {
+	display: flex;
+	flex-direction: column;
+	width: auto;
+	margin: 20px auto 0 auto;
+	
+}
+.inner_container {
+	display: flex;
+	flex-direction: column;
+}
+
+.list_row img {
+	margin: 10px 0;
+}
+
+.text-box {
+	margin: auto 20px auto 30px;
+}
+
+
+
+.img-list-home {
+	width: 150px;
+}
+
+button {
+	color: white;
+	background-color: #23dbc6;
+	border: none;
+}
+.select {
+	color: white;
+	background-color: #23dbc6;
+	width: max-content;		
+}
+a {
+	text-decoration: none;
+}
+.rotate {
+	margin: 10px;
+	border: none;
+	}
+
+.fa-play  {
+	font-size : 300%;
+	width: 70px;
+	cursor: pointer;
+}
+.fa-stop {
+	font-size : 300%;
+	width: 70px;
+	cursor: pointer;
+}
+
+
+div.list_row img {
+	opacity: 1;
+	transition: 1s ease-in-out;
+}
+
+div.ticker {
+	overflow: hidden;
+}
+
+@keyframes ticker-slide {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-4400px);
+        }
+      }
+/* 다수의 이미지를 담고 있는 box */
+div.list_row {
+	animation: ticker-slide 2s linear infinite;
+	overflow: hidden;
+}
+div.ticker:hover div.list_row {
+        animation-play-state: paused;
+        cursor: pointer;
+      }
+div.stop-ani {
+	animation-play-state: paused;
+}
+
+div.img-box img {
+	opacity: 1;
+	transition: opacity 0s ease-in-out;
+}
+
+div.img-box {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 15px;
+}
+
+
+
+div.img-box img {
+	width: 180px;
+	height: 180px;
+}
 </style>
 </head>
 <body>
@@ -114,7 +236,9 @@ article.welcome {
 			</sec:authorize>
 
 			<sec:authorize access="isAuthenticated()">
-				<li><a href="${rootPath}/">로그아웃</a></li>
+				<li><form:form class="logout" action="${rootPath}/logout">
+						<button>로그아웃</button>
+					</form:form></li>
 				<li><a href="${rootPath}/user/mypage">myPage</a></li>
 			</sec:authorize>
 		</ul>
@@ -130,34 +254,50 @@ article.welcome {
 			<c:when test="${LAYOUT == 'FOOD_LIST' }">
 				<%@ include file="/WEB-INF/views/food/list.jsp"%>
 			</c:when>
+			<c:when test="${LAYOUT == 'MYPAGE' }">
+				<%@ include file="/WEB-INF/views/user/mypage.jsp"%>
+			</c:when>
 
 		</c:choose>
-			<c:if test="${empty principal.username}">
 
-				<article class="welcome">
-					<h1>메뉴추천 애플리케이션 2022</h1>
-					<p>MR을 이용하시려면 회원가입, 로그인을 해 주세요</p>
-				</article>
+		<c:if test="${empty userID}">
 
-			</c:if>
-			<c:if test="${not empty principal.username}">
-				<div class="list_box cho-list-containerVer2">
-					<ul id="list_today">
-						<c:forEach items="${RECIPES}" var="RAND">
-							<li>
-								<div class="cho-list-boxVer2" data-seq="${RAND.RCP_SEQ}"
-									data-nm="${RAND.RCP_NM}">
-									<img class="img-list-home" src="${RAND.ATT_FILE_NO_MK}" />
-								</div>
-								<div class="text-box">${RAND.RCP_NM}</div>
-							</li>
-						</c:forEach>
-					</ul>
+			<article class="welcome">
+				<h1>메뉴추천 애플리케이션 2022</h1>
+				<p>MR을 이용하시려면 회원가입, 로그인을 해 주세요</p>
+			</article>
+
+		</c:if>
+		<c:if test="${not empty userID}">
+			<div class="menu_rec">
+				<h2>메뉴를 추천합니다</h2>
+				<div class="list_box">
+					<div class="list_today">
+						<div class="ticker">
+							<div class="list_row"<%-- data-seq="${RAND.RCP_SEQ}" data-nm="${RAND.RCP_NM}" --%>>
+								<c:forEach items="${RECIPES}" var="RAND">
+									<div class="img-box">
+										<img class="img-list-home" src="${RAND.ATT_FILE_NO_MK}" />
+										<div class="inner_container">
+										<div>${RAND.RCP_NM}</div>
+										<div class="select"><a href="${rootPath}/food/${RAND.RCP_SEQ}/addEvent">선택</a></div>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+					<div class="rotate btn_stop">
+					<button>
+						<i class="fa-solid fa-stop btn_click"></i></button>
+					</div>
+					<div class="rotate btn_start">
+					<button>
+						<i class="fa-solid fa-play"></i></button>
+					</div>
 				</div>
-				<button>
-					<i class="fa-solid fa-rotate-left"></i>
-				</button>
-			</c:if>
+			</div>
+		</c:if>
 	</section>
 	<form:form class="logout" action="${rootPath}/logout" />
 

@@ -1,8 +1,11 @@
 package com.callor.food.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,26 +24,21 @@ public class HomeController {
 	
 	@Autowired
 	private MenuService post;
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String home(Locale locale, Model model, Principal principal, HttpSession httpSession) {
+	
+		if(principal != null) {
+			model.addAttribute("userID",principal.getName()); 
+		}
 		
 		List<MenuVO> recipeList = new ArrayList<MenuVO>();
 		recipeList = post.getAllRecipes();
-		
-		int intRan1 = (int) (Math.random()* recipeList.size()) ;
-		int intRan2 = (int) (Math.random()* recipeList.size()) ;
-		int intRan3 = (int) (Math.random()* recipeList.size()) ;
-		int intRan4 = (int) (Math.random()* recipeList.size()) ;
-		int intRan5 = (int) (Math.random()* recipeList.size()) ;
-		
+		httpSession.setAttribute("FullList", recipeList);
 		List<MenuVO> randList = new ArrayList<MenuVO>();
-		
-		
-		randList.add(recipeList.get(intRan1));
-		randList.add(recipeList.get(intRan2));
-		randList.add(recipeList.get(intRan3));
-		randList.add(recipeList.get(intRan4));
-		randList.add(recipeList.get(intRan5));
+		for(int i = 0 ; i < 25 ; i++) {
+			int intRan1 = (int) (Math.random()* recipeList.size()) ;
+			randList.add(recipeList.get(intRan1));
+		}
 		model.addAttribute("RECIPES", randList);
 		return "home";
 	}

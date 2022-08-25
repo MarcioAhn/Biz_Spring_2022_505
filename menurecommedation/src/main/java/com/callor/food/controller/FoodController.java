@@ -3,14 +3,21 @@ package com.callor.food.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.callor.food.model.AddressVO;
 import com.callor.food.model.FoodVO;
+import com.callor.food.model.MenuVO;
+import com.callor.food.model.SearchPage;
+import com.callor.food.service.AddressService;
 import com.callor.food.service.FoodService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +30,26 @@ public class FoodController {
 	@Autowired
 	private FoodService foodService;
 	
+	@Autowired
+	private AddressService addrService;
+	
+
+		
+	
+	public FoodController(FoodService foodService, AddressService addrService) {
+		super();
+		this.foodService = foodService;
+		this.addrService = addrService;
+	}
+
+
+
+
 	@RequestMapping(value={"/",""},method=RequestMethod.GET)
-	public String home(Principal principal,Model model) {
+	public String home(Principal principal,Model model, @RequestParam(name = "pageno",
+			required = false, 
+			defaultValue = "1") int pageno,
+			SearchPage searchPage) {
 
 		// Spring Security Project 에서 로그인한 사용자의 
 		// username 을 get 하기
@@ -42,6 +67,17 @@ public class FoodController {
 	
 		model.addAttribute("FOODS", foodList);
 		model.addAttribute("LAYOUT","FOOD_LIST");
+		// List<AddressVO> addrList = addrService.selectAll();
+		
+		searchPage.setCurrentPageNo(pageno);
+		// 페이지 계산
+		addrService.searchAndPage(model,searchPage);
+		log.debug("페이지 계산 {}",searchPage.toString());
+		
+		// 데이터 가져오기
+		List<AddressVO> addrList = addrService.searchAndPage(searchPage);
+		
+		model.addAttribute("ADDRS", addrList);
 		
 		return "home";
 		
@@ -64,6 +100,8 @@ public class FoodController {
 		}
 		foodVO.setT_username(username);
 		foodService.insert(foodVO);
+		
+		
 		return "redirect:/food";
 	}
 	
@@ -126,6 +164,23 @@ public class FoodController {
 		return "redirect:/food";
 	}
 	
+	@RequestMapping(value="/{RCP_SEQ}/addEvent", method=RequestMethod.GET)
+	public String aa (@PathVariable("RCP_SEQ") Long seq,  HttpSession httpSession, Principal principal) {
+		List<MenuVO> fullList = (List<MenuVO>) httpSession.getAttribute("FullList");
+		log.debug("여기다 {}", fullList);
+		MenuVO vvvo = null;
+		for(MenuVO vo : fullList) {
+			if (vo.getRCP_SEQ() == seq) {
+				vvvo= vo;
+			}
+		}
+		FoodVO foodVO = FoodVO.builder()
+				.t_content(vvvo.getRCP_NM())
+				.t_username(principal.getName())
+				.build();
+		foodService.insert(foodVO);
+		return "redirect:/food";
+	}
 	
 	
 

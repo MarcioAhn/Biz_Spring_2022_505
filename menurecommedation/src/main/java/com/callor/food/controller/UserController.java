@@ -1,5 +1,7 @@
 package com.callor.food.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,15 @@ public class UserController {
 	public String login(String error, Model model) {
 		model.addAttribute("LAYOUT","LOGIN");
 		model.addAttribute("error",error);
+		return "home";
+	}
+	@RequestMapping(value="/mypage",method=RequestMethod.GET)
+	public String mypage(Model model,Principal principal) {
+		
+		String username = principal.getName();
+		UserVO userVO = userService.findById(username);
+		model.addAttribute("LAYOUT","MYPAGE");
+		model.addAttribute("USER",userVO);
 		return "home";
 	}
 

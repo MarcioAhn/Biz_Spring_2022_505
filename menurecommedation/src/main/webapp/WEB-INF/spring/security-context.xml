@@ -28,8 +28,11 @@
 		<sec:intercept-url pattern="/" access="permitAll"/>
 	
 		<sec:form-login login-page="/user/login?error=LOGIN_NEED" 
-				login-processing-url="/user/login"/>
-		<sec:logout/>
+				login-processing-url="/user/login"
+				username-parameter="username"
+			password-parameter="password"/>
+		<sec:logout logout-url="/logout" invalidate-session="true"
+			delete-cookies="JSESSIONID" logout-success-url="/user/login" />
 	</sec:http>
 	
 	<sec:authentication-manager>
